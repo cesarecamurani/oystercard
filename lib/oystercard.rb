@@ -25,6 +25,10 @@ MAX_BALANCE = 90
 
   end
 
+  def in_journey
+    
+  end
+
   private
 
   def limit_exceeded?(amount)
