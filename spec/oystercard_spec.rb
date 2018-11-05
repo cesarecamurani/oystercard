@@ -1,34 +1,41 @@
 require "oystercard"
 
 describe Oystercard do
+  let(:oystercard) { described_class.new }
 
-  it { expect(subject.balance).to eq 0 }
+  it { expect(oystercard.balance).to eq 5 }
+  it { expect(oystercard.moving).to eq false }
 
   describe "#top_up" do
     it "increase the balance" do
-      expect{ subject.top_up 1 }.to change{ subject.balance }.by 1
+      expect{ oystercard.top_up 1 }.to change{ oystercard.balance }.by 1
     end
     it "raise an error if the limit is reached" do
-      expect{ subject.top_up(100) }.to raise_error "Max limit is £90"
+      expect{ oystercard.top_up(100) }.to raise_error "Max limit is £90"
     end
   end
 
   describe "#deduct" do
     it "deduct the amount from the balance" do
-      expect{ subject.deduct 1 }.to change{ subject.balance }.by -1
+      expect{ oystercard.deduct 1 }.to change{ oystercard.balance }.by -1
     end
   end
 
   describe "#touch_in" do
-    it { is_expected.to respond_to(:touch_in) }
+    it "allow the passenger to enter the tube" do
+      expect{ oystercard.touch_in(1) }.to change{ oystercard.moving }.to true
+    end
+    it "raise an error if the credit is less than £1" do
+      expect{ oystercard.touch_in(0) }.to raise_error "Not enough credit"
+    end
   end
 
   describe "#touch_out" do
-    it { is_expected.to respond_to(:touch_out) }
+    it "allow the passenger to leave the tube" do
+      oystercard.touch_in(1)
+      expect{ oystercard.touch_out }.to change{ oystercard.moving }.to false
+    end
   end
 
-  describe "#in_journey" do
-    it { is_expected.to respond_to(:in_journey) }
-  end
 
-end
+  end
