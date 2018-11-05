@@ -13,11 +13,22 @@ MAX_BALANCE = 90
     @balance += amount
   end
 
+  def deduct(amount)
+    @balance -= amount
+  end
+
+  def touch_in
+
+  end
+
+  def touch_out
+
+  end
+
   private
 
   def limit_exceeded?(amount)
     raise "Max limit is £90" if (@balance + amount) > MAX_BALANCE
   end
-
 
 end
