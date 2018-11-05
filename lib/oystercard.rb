@@ -5,7 +5,7 @@ attr_reader :balance, :moving
 MAX_BALANCE = 90
 MIN_BALANCE = 1
 
-  def initialize(balance = 5, moving = false)
+  def initialize(balance = 0, moving = false)
     @balance = balance
     @moving = moving
   end

@@ -3,7 +3,7 @@ require "oystercard"
 describe Oystercard do
   let(:oystercard) { described_class.new }
 
-  it { expect(oystercard.balance).to eq 5 }
+  it { expect(oystercard.balance).to eq 0 }
   it { expect(oystercard.moving).to eq false }
 
   describe "#top_up" do
