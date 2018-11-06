@@ -3,6 +3,7 @@ require "oystercard"
 describe Oystercard do
   let(:oystercard){ described_class.new }
   let(:entry_station){ double :entry_station }
+  let(:exit_station){ double :exit_station }
 
   it { expect(oystercard.balance).to eq 0 }
   it { expect(oystercard.moving).to eq false }
@@ -35,9 +36,9 @@ describe Oystercard do
     it "allow the passenger to leave the tube" do
       oystercard.top_up(1)
       oystercard.touch_in(entry_station)
-      expect{ oystercard.touch_out(entry_station) }.to change{ oystercard.moving }.to false
-      expect{ oystercard.touch_out(entry_station) }.to change{ oystercard.balance }.by(-Oystercard::MIN_FARE)
-      expect(oystercard.entry_station).to eq nil
+      expect{ oystercard.touch_out(exit_station) }.to change{ oystercard.moving }.to false
+      expect{ oystercard.touch_out(exit_station) }.to change{ oystercard.balance }.by(-Oystercard::MIN_FARE)
+      expect(oystercard.exit_station).to eq exit_station
     end
   end
 
