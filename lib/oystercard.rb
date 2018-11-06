@@ -1,6 +1,8 @@
+require_relative 'station'
+
 class Oystercard
 
-attr_reader :balance, :moving, :entry_station, :exit_station, :history
+attr_reader :balance, :moving, :history
 
 MAX_BALANCE = 90
 MIN_BALANCE = 1
@@ -9,7 +11,7 @@ MIN_FARE = 1
   def initialize(balance = 0, moving = false)
     @balance = balance
     @moving = moving
-    @history = {:journey => []}
+    @history = {}
   end
 
   def top_up(amount)
@@ -17,17 +19,16 @@ MIN_FARE = 1
     @balance += amount
   end
 
-  def touch_in(entry_station)
+  def touch_in(station)
     no_credit?
     @moving = true
-    @entry_station = entry_station
+    history[:entry] = station
   end
 
-  def touch_out(exit_station)
+  def touch_out(station)
     deduct(MIN_FARE)
     @moving = false
-    @exit_station = exit_station
-    store_journey
+    history[:exit] = station
   end
 
   private
@@ -43,16 +44,5 @@ MIN_FARE = 1
   def no_credit?
     raise "Not enough credit" if @balance < MIN_BALANCE
   end
-
-  def store_journey
-    history[:journey] << entry_station
-    history[:journey] << exit_station
-  end
-
-  #def store_journey
-    #history[history.keys.last.next] = [entry_station]
-    #history.values.last << exit_station
-  #end
-
 
 end
