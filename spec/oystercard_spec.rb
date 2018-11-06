@@ -7,6 +7,7 @@ describe Oystercard do
 
   it { expect(oystercard.balance).to eq 0 }
   it { expect(oystercard.moving).to eq false }
+  #it { expect(oystercard.history).to be_empty }
 
   describe "#top_up" do
     it "increase the balance" do

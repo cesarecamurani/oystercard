@@ -9,7 +9,7 @@ MIN_FARE = 1
   def initialize(balance = 0, moving = false)
     @balance = balance
     @moving = moving
-    @history = {0 => []}
+    @history = {:journey => []}
   end
 
   def top_up(amount)
@@ -30,8 +30,6 @@ MIN_FARE = 1
     store_journey
   end
 
-
-
   private
 
   def deduct(fare)
@@ -47,9 +45,14 @@ MIN_FARE = 1
   end
 
   def store_journey
-    history[history.keys.last.next] = [entry_station]
-    history.values.last << exit_station
+    history[:journey] << entry_station
+    history[:journey] << exit_station
   end
+
+  #def store_journey
+    #history[history.keys.last.next] = [entry_station]
+    #history.values.last << exit_station
+  #end
 
 
 end
