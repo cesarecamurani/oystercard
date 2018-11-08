@@ -21,6 +21,7 @@ MIN_BALANCE = 1
 
   def touch_in(station)
     no_credit?
+    check_penalty_apply
     @journey.start_journey(station)
   end
 
@@ -32,6 +33,10 @@ MIN_BALANCE = 1
 
   def charge_fare
     @balance -= @journey.decide_fare
+  end
+
+  def check_penalty_apply
+    @balance -= @journey.penalty
   end
 
   def status

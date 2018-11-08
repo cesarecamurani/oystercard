@@ -28,10 +28,12 @@ class Journey
     !@current_journey[:entry].nil? && @current_journey[:exit].nil?
   end
 
+  def penalty
+    @current_journey.empty? ? 0 : PENALTY_FARE
+  end
+
   def decide_fare
     !@current_journey[:entry].nil? ? MIN_FARE : PENALTY_FARE
   end
-
-
 
 end
