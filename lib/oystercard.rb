@@ -3,10 +3,12 @@ require_relative 'journey'
 
 class Oystercard
 
-attr_reader :balance, :journey_log
+attr_reader :balance
 
 MAX_BALANCE = 90
 MIN_BALANCE = 1
+MIN_FARE = 1
+PENALTY_CHARGE = 6
 
   def initialize(balance = 0, journey = Journey.new)
     @balance = balance
@@ -25,6 +27,15 @@ MIN_BALANCE = 1
 
   def touch_out(station)
     @journey.end_journey(station)
+    #charge_fare(fare)
+  end
+
+  def status
+    @journey.in_journey?
+  end
+
+  def history
+    @journey.journey_log
   end
 
   def charge_fare(fare)
