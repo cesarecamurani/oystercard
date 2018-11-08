@@ -32,5 +32,10 @@ describe Journey do
     end
   end
 
+  describe "#fare" do
+    it "calculates the correct fare for the journey" do
 
-end
+    end
+
+    end
+  end

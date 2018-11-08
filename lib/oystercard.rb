@@ -7,8 +7,7 @@ attr_reader :balance
 
 MAX_BALANCE = 90
 MIN_BALANCE = 1
-MIN_FARE = 1
-PENALTY_CHARGE = 6
+
 
   def initialize(balance = 0, journey = Journey.new)
     @balance = balance
@@ -27,7 +26,12 @@ PENALTY_CHARGE = 6
 
   def touch_out(station)
     @journey.end_journey(station)
-    #charge_fare(fare)
+    charge_fare
+    @journey.current_journey = {}
+  end
+
+  def charge_fare
+    @balance -= @journey.decide_fare
   end
 
   def status
@@ -36,11 +40,6 @@ PENALTY_CHARGE = 6
 
   def history
     @journey.journey_log
-  end
-
-  def charge_fare(fare)
-    @balance -= MIN_FARE
-    @balance -= PENALTY_CHARGE
   end
 
   private

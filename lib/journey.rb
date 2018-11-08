@@ -1,7 +1,11 @@
 require_relative 'station'
 
 class Journey
-  attr_reader :current_journey, :journey_log, :in_journey
+  attr_reader :journey_log, :in_journey
+  attr_accessor :current_journey
+
+  MIN_FARE = 1
+  PENALTY_FARE = 6
 
   def initialize
     @in_journey = false
@@ -23,5 +27,11 @@ class Journey
   def in_journey?
     !@current_journey[:entry].nil? && @current_journey[:exit].nil?
   end
+
+  def decide_fare
+    !@current_journey[:entry].nil? ? MIN_FARE : PENALTY_FARE
+  end
+
+
 
 end
