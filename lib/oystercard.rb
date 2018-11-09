@@ -1,5 +1,5 @@
 require_relative 'station'
-require_relative 'journey'
+require_relative 'journey_log'
 
 class Oystercard
 
@@ -9,9 +9,9 @@ MAX_BALANCE = 90
 MIN_BALANCE = 1
 
 
-  def initialize(balance = 0, journey = Journey.new)
+  def initialize(balance = 0, journey_log = JourneyLog.new)
     @balance = balance
-    @journey = journey
+    @journey_log = journey_log
   end
 
   def top_up(amount)
@@ -21,30 +21,26 @@ MIN_BALANCE = 1
 
   def touch_in(station)
     no_credit?
-    check_penalty_apply
-    @journey.start_journey(station)
+    penalty_apply?
+    @journey_log.track_entry(station)
   end
 
   def touch_out(station)
-    @journey.end_journey(station)
+    @journey_log.track_exit(station)
     charge_fare
-    @journey.current_journey = {}
+    @journey_log.current_journey = {}
   end
 
   def charge_fare
-    @balance -= @journey.decide_fare
+    @balance -= @journey_log.calculate_fare
   end
 
-  def check_penalty_apply
-    @balance -= @journey.penalty
-  end
-
-  def status
-    @journey.in_journey?
+  def penalty_apply?
+    @balance -= @journey_log.penalty
   end
 
   def history
-    @journey.journey_log
+    @journey_log.journeys
   end
 
   private

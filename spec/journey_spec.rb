@@ -1,41 +1,24 @@
 require 'journey'
 
 describe Journey do
-  let(:journey){ described_class.new }
-  let(:station){ double :station}
+  subject(:journey){ described_class.new }
+  let(:station){ double :station }
   let(:oystercard){ double :oystercard }
 
   it { expect(journey.in_journey).to eq false }
-  it { expect(journey.current_journey).to be_empty }
-  it { expect(journey.journey_log).to be_empty }
 
   describe "#start_journey" do
-    it "tracks the entry station" do
-      expect{ journey.start_journey(station) }.to change{ journey.in_journey }.to true
-      expect(journey.current_journey[:entry]).to eq station
+    it "sets in_journey to true" do
+      expect{ journey.start_journey }.to change{ journey.in_journey }.to true
     end
   end
 
   describe "#end_journey" do
-    it "tracks the exit station" do
-      journey.start_journey(station)
-      expect{ journey.end_journey(station) }.to change{ journey.in_journey }.to false
-      expect(journey.current_journey[:exit]).to eq station
+    it "sets in_journey to false" do
+      journey.start_journey
+      expect{ journey.end_journey }.to change{ journey.in_journey }.to false
     end
   end
 
-  describe "#journey_log" do
-    it "add current journey to the journey log" do
-      journey.start_journey(station)
-      journey.end_journey(station)
-      expect(journey.journey_log).to include journey.current_journey
-    end
-  end
 
-  describe "#fare" do
-    it "calculates the correct fare for the journey" do
-
-    end
-
-    end
-  end
+end
